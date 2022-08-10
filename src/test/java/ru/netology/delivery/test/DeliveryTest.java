@@ -79,7 +79,7 @@ class DeliveryTest {
                 .should(Condition.text("Необходимо подтверждение"))
                 .shouldBe(Condition.visible);
         $x("//div[@data-test-id='replan-notification']//div[@class='notification__content']")
-                .should(Condition.text("У вас уже запланирована встреча на другую дату. Перепланировать?"))
+                .should(Condition.text("У вас уже запланирована встреча на другую дату. Перепланировать??"))
                 .shouldBe(Condition.visible);
     }
 
