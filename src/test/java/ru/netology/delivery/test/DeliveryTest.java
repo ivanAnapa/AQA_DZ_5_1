@@ -29,15 +29,12 @@ class DeliveryTest {
         fillMeetingDate(firstMeetingDate);
         enableCheckbox();
         clickToPlanBtn();
-
-        validateResult(1, firstMeetingDate);
-
+        validatePlanResult(firstMeetingDate);
         fillMeetingDate(secondMeetingDate);
         clickToPlanBtn();
-
-        validateResult(2, "");
-
-        validateResult(3, secondMeetingDate);
+        validateReplanResult();
+        clickReplanBtn();
+        validatePlanResult(secondMeetingDate);
 
     }
 
@@ -61,27 +58,29 @@ class DeliveryTest {
         $x("//button[.//span[text()='Запланировать']]").click();
     }
 
-    private void validateResult(int caseNumber, String meetDate) {
-        switch (caseNumber) {
-            case 1:
-            case 3:
-                $x("//div[@data-test-id='success-notification']//div[@class='notification__title']")
-                        .should(Condition.text("Успешно!"))
-                        .shouldBe(Condition.visible);
-                $x("//div[@data-test-id='success-notification']//div[@class='notification__content']")
-                        .should(Condition.text("Встреча успешно запланирована на " + meetDate))
-                        .shouldBe(Condition.visible);
-                break;
-            case 2:
-                $x("//div[@data-test-id='replan-notification']//div[@class='notification__title']")
-                        .should(Condition.text("Необходимо подтверждение"))
-                        .shouldBe(Condition.visible);
-                $x("//div[@data-test-id='replan-notification']//div[@class='notification__content']")
-                        .should(Condition.text("У вас уже запланирована встреча на другую дату. Перепланировать?"))
-                        .shouldBe(Condition.visible);
-                $x("//div[@data-test-id='replan-notification']//button").click();
-                break;
-        }
+    private void clickReplanBtn() {
+        $x("//div[@data-test-id='replan-notification']//button").click();
+    }
+
+    private void validatePlanResult(String meetDate) {
+
+        $x("//div[@data-test-id='success-notification']//div[@class='notification__title']")
+                .should(Condition.text("Успешно!"))
+                .shouldBe(Condition.visible);
+        $x("//div[@data-test-id='success-notification']//div[@class='notification__content']")
+                .should(Condition.text("Встреча успешно запланирована на " + meetDate))
+                .shouldBe(Condition.visible);
+
+    }
+
+    private void validateReplanResult() {
+
+        $x("//div[@data-test-id='replan-notification']//div[@class='notification__title']")
+                .should(Condition.text("Необходимо подтверждение"))
+                .shouldBe(Condition.visible);
+        $x("//div[@data-test-id='replan-notification']//div[@class='notification__content']")
+                .should(Condition.text("У вас уже запланирована встреча на другую дату. Перепланировать?"))
+                .shouldBe(Condition.visible);
     }
 
 }
